@@ -1,20 +1,6 @@
-{% load staticfiles %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
-    <title>Title</title>
-
-    <link href="static/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'login.css' %}" rel="stylesheet" type="text/css">
-
-</head>
+{% extends 'toDo/base.html' %}
+{% block main_content %}
 
 
 <body>
@@ -42,11 +28,28 @@
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="email" required autofocus><br><br>
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password"required>
-    <br><br>
+          <br><br>
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword2" class="form-control" placeholder="Reenter password" required>
+      <input type="password" id="inputPassword2" class="form-control" name="password2" placeholder="Reenter password" required>
     <br><br>
 
+          <!--
+            problem==0 no problem
+            problem==1 username repeted
+            problem==2 email repeated
+            problem==3 emails are not the same -->
+
+        {% if problem == 1 %}
+              <label class="problem"> * The username is already in use</label>
+          {%endif %}
+        {% if problem == 2 %}
+              <label class="problem"> * The email is already in use</label>
+          {%endif %}
+        {% if problem == 3 %}
+              <label class="problem"> * The emails have to be the same</label>
+        {% endif %}
+
+      <br><br><br>
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Remember me
@@ -64,4 +67,4 @@
     </div>
 </body>
 
-</html>
+{% endblock %}

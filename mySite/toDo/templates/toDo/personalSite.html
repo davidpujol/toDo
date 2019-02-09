@@ -1,26 +1,15 @@
-{% load staticfiles %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
-    <title>Title</title>
+{% extends 'toDo/base.html' %}
+{% block main_content %}
 
-    <link href="static/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
-
-
+<body>
     <style>
         li {
             text-align: left;
         }
     </style>
-</head>
-<body>
+
+
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
     {% include 'toDo/header.html' %}
@@ -43,10 +32,10 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="Show" value="show"> Show </button>
     </form>
 
-
-   <form action="{%url 'addList' %}" method="post">
+    <br><br>
+   <form action="{%url 'addList' %}" method="post" style="text-align: left;">
             {% csrf_token %}
-            <input type="text" placeholder="New list's name" name="newList">
+            <input class="newInput" type="text" placeholder="New list's name" name="newList">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
    </form>
 
@@ -58,4 +47,5 @@
     </div>
 
 </body>
-</html>
+
+{% endblock %}

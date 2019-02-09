@@ -12,32 +12,41 @@ def login(request):
     return render(request, 'toDo/logIn.html', None)
 
 
-def register (request):
-    return render(request, 'toDo/register.html', None)
+def register (request, problem=0):
+    return render(request, 'toDo/register.html', {'problem':problem})
 
 
 def registrationInfo(request):
+    if request.POST['password'] != request.POST["password2"]:
+        return render(request, 'toDo/register.html', {'problem': 2})
+
     if User.objects.filter(user = request.POST['username']).count() >= 1:
-        print("The username already exists")
-        return redirect('register')
+        return render(request, 'toDo/register.html', {'problem': 1})
 
     if User.objects.filter(email=request.POST['email']).count() >= 1:
-        print("The email already exists")
-        return redirect("register")
+        return render(request, 'toDo/register.html', {'problem': 2})
 
     else:
         print("We add the user")
-        User.objects.create(user=request.POST['username'], password=request.POST['password'], email=request.POST['email'], name=request.POST["name"])
+        User.objects.create(user=request.POST['username'], password=hash(request.POST['password']), email=request.POST['email'], name=request.POST["name"])
         return redirect("login")
 
 
 def identifing (request):
     try:
         global usuari
+        global remember
+
         email = request.POST['email']
         password = request.POST['password']
-        usuari = User.objects.get(email=email, password=password)
-        print("We found the user")
+        usuari = User.objects.get(email=email, password=hash(password))
+
+        if 'rememberMe' in request.POST and request.POST['rememberMe'] == 'on':
+            remember = True
+
+        else:
+            remember = False
+
         return redirect(personalSite)
 
     except:
@@ -46,8 +55,18 @@ def identifing (request):
 
 
 def personalSite(request):
-        list = usuari.todolist_set.all()
-        return render(request, 'toDo/personalSite.html', {'name':usuari, 'list':list})
+        global usuari
+        print(usuari)
+        if usuari == None:
+            return redirect ('login')
+
+        else:
+            list = usuari.todolist_set.all()
+            usuariAux = usuari
+            if not remember:
+                usuari = None
+
+            return render(request, 'toDo/personalSite.html', {'name':usuariAux, 'list':list})
 
 
 

@@ -1,30 +1,8 @@
+
+{% extends 'toDo/base.html' %}
 {% load staticfiles %}
+{% block main_content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
-    <title>Title</title>
-
-    <link href="static/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'addicional.css' %}" rel="stylesheet" type="text/css">
-
-    <script>
-        function deleteTask(input) {
-            $.ajax({
-                type: "POST",
-                url: "mySite/toDo/deleteTask.py",
-                data: { element: input }
-            });
-        }
-
-
-    </script>
 
 </head>
 <body>
@@ -45,17 +23,18 @@
                 {% else %}
                     <input class="checkbox" type="checkbox" name="{{e.task}}">
                 {% endif %}
+
                     <label class="item"> {{e.task}}</label> <img class="trash" src="{% static 'trash.png' %}"> <br>
             {% endfor %}
             <br><br>
             <button class="btn btn-lg btn-primary btn-block" type="submit"> Apply changes</button>   <br>
 
         </form>
-        <br>
+        <br><br>
 
         <form action="{%url 'addTask' %}" method="post">
             {% csrf_token %}
-            <input type="text" placeholder="New task" name="newTask">
+            <input class="newInput" type="text" placeholder="New task" name="newTask">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
         </form>
 
@@ -68,4 +47,5 @@
 
     </div>
 </body>
-</html>
+
+{% endblock %}
