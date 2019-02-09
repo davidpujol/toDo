@@ -1,0 +1,16 @@
+.trash {
+    width: 20px;
+    height: 20px;
+    vertical-align: center;
+}
+
+.item {
+    margin-left: 10px;
+    margin-right:10px;
+    vertical-align: top;
+}
+
+.checkbox {
+    vertical-align: top;
+    margin-top:6px;
+}

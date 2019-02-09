@@ -1,0 +1,56 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Title</title>
+
+    <link href="static/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'login.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% include 'toDo/header.html' %}
+
+  <div class="inner-cover"><br>
+
+
+    <form class="form-signin" action="{%url 'identifing' %}" method="post">
+    {% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1><br>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <br><br>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required> <br>
+
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <br> <br>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+</form>
+
+
+    </div>
+
+    <br><br>
+    {% include 'toDo/footer.html' %}
+
+
+    </div>
+</body>
+
+</html>

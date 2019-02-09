@@ -1,0 +1,71 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Title</title>
+
+    <link href="static/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'addicional.css' %}" rel="stylesheet" type="text/css">
+
+    <script>
+        function deleteTask(input) {
+            $.ajax({
+                type: "POST",
+                url: "mySite/toDo/deleteTask.py",
+                data: { element: input }
+            });
+        }
+
+
+    </script>
+
+</head>
+<body>
+     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% include 'toDo/header.html' %}
+
+    <br><br>
+    <main role="main" class="inner cover" style="text-align: left;"> <br><br>
+        <h2> {{list.title}}</h2>
+
+        <!-- Find the way to choose several options with bullet points and still be able to send only the checked ones -->
+        <!-- Do not send it to a url, simply execute a js function -->
+        <form action="{%url 'processChanges' %}" method="post">
+            {% csrf_token %}
+            {% for e in tasks %}
+                {% if e.completed %}
+                    <input class="checkbox" type="checkbox" name="{{e.task}}" checked>
+                {% else %}
+                    <input class="checkbox" type="checkbox" name="{{e.task}}">
+                {% endif %}
+                    <label class="item"> {{e.task}}</label> <img class="trash" src="{% static 'trash.png' %}"> <br>
+            {% endfor %}
+            <br><br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"> Apply changes</button>   <br>
+
+        </form>
+        <br>
+
+        <form action="{%url 'addTask' %}" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="New task" name="newTask">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+        </form>
+
+
+
+    </main>
+
+    <br><br><br>
+    {% include 'toDo/footer.html' %}
+
+    </div>
+</body>
+</html>

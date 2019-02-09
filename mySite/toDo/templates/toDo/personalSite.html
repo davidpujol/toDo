@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Title</title>
+
+    <link href="static/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+
+
+    <style>
+        li {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    {% include 'toDo/header.html' %}
+
+
+    <br><br>
+    <main role="main" class="inner cover" style="text-align: center;">
+    <h1 class="cover-heading">Welcome to toDo {{usuari.nom}}</h1>
+    <h2 class="cover-heading" style="text-align: left;"> This is your personal list: </h2><br>
+
+    <form action="{% url 'specificList' %}" method="post" style="text-align: left;">
+        {% csrf_token %}
+        {%for e in list %}
+            <input type="radio" name="chosen_list" value="{{e.title}}">
+            <label style="margin-left:10px;"> {{e.title}}</label><br><br>
+        {% endfor %}
+
+        <br><br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="Delete" value="delete"> Delete</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="Show" value="show"> Show </button>
+    </form>
+
+
+   <form action="{%url 'addList' %}" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="New list's name" name="newList">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+   </form>
+
+  </main>
+
+    <br><br><br>
+    {% include 'toDo/footer.html' %}
+
+    </div>
+
+</body>
+</html>
