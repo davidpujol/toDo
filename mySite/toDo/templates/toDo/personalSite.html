@@ -18,8 +18,11 @@
     <br><br>
     <main role="main" class="inner cover" style="text-align: center;">
     <h1 class="cover-heading">Welcome to toDo {{usuari.nom}}</h1>
-    <h2 class="cover-heading" style="text-align: left;"> This is your personal list: </h2><br>
 
+    {% if empty%}
+    <h2 class="cover-heading" style="text-align: left;"> You don't have any list yet. </h2><br>
+    {% else %}
+    <h2 class="cover-heading" style="text-align: left;"> This are your lists: </h2><br>
     <form action="{% url 'specificList' %}" method="post" style="text-align: left;">
         {% csrf_token %}
         {%for e in list %}
@@ -31,6 +34,8 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="Delete" value="delete"> Delete</button>
         <button class="btn btn-lg btn-primary btn-block" type="submit" name="Show" value="show"> Show </button>
     </form>
+
+    {% endif %}
 
     <br><br>
    <form action="{%url 'addList' %}" method="post" style="text-align: left;">

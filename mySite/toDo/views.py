@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import User, ToDoList, SingleTask
+import hashlib
 
 # Create your views here.
 
@@ -9,6 +10,7 @@ def main(request):
 
 
 def login(request):
+    # toDo CHECK IF THERE IS A LOGGIN COOKIE SO IT IS NOT NEEDED TO DO THE CHECK IN
     return render(request, 'toDo/logIn.html', None)
 
 
@@ -28,7 +30,7 @@ def registrationInfo(request):
 
     else:
         print("We add the user")
-        User.objects.create(user=request.POST['username'], password=hash(request.POST['password']), email=request.POST['email'], name=request.POST["name"])
+        User.objects.create(user=request.POST['username'], password=hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest(), email=request.POST['email'], name=request.POST["name"])
         return redirect("login")
 
 
@@ -38,8 +40,8 @@ def identifing (request):
         global remember
 
         email = request.POST['email']
-        password = request.POST['password']
-        usuari = User.objects.get(email=email, password=hash(password))
+        password = hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest()
+        usuari = User.objects.get(email=email, password=password)
 
         if 'rememberMe' in request.POST and request.POST['rememberMe'] == 'on':
             remember = True
@@ -54,61 +56,74 @@ def identifing (request):
         return render(request, 'toDo/logIn.html', None)
 
 
+
 def personalSite(request):
+    try:
         global usuari
-        print(usuari)
-        if usuari == None:
-            return redirect ('login')
+        list = usuari.todolist_set.all()
+        empty = len(list) == 0
+        return render(request, 'toDo/personalSite.html', {'name':usuari, 'list':list, 'empty':empty})
 
-        else:
-            list = usuari.todolist_set.all()
-            usuariAux = usuari
-            if not remember:
-                usuari = None
-
-            return render(request, 'toDo/personalSite.html', {'name':usuariAux, 'list':list})
-
+    except:
+        return render(request, 'toDo/logIn.html', None)
 
 
 def specificList (request):
-    #make sure that chose_list returns only one
-    if 'chosen_list' in request.POST:
-        global chosen
-        chosen = request.POST['chosen_list']
+    try:
+        #make sure that chose_list returns only one
+        if 'chosen_list' in request.POST:
+            global chosen
+            chosen = request.POST['chosen_list']
 
-    if 'Delete' in request.POST:
-        ToDoList.objects.get(title=chosen).delete()
-        return redirect('personalSite')
+        if 'Delete' in request.POST:
+            ToDoList.objects.get(title=chosen).delete()
+            return redirect('personalSite')
 
-    else:
-        list = ToDoList.objects.get(title=chosen)
-        tasks = list.singletask_set.all()
-        return render(request, 'toDo/specificList.html', {'list':list, 'tasks':tasks})
+        else:
+            try:
+                list = ToDoList.objects.get(title=chosen)
+                tasks = list.singletask_set.all()
 
+            except:
+                return redirect(personalSite)
 
+            return render(request, 'toDo/specificList.html', {'list':list, 'tasks':tasks})
+
+    except:
+        return render(request, 'toDo/logIn.html', None)
 
 
 def processChanges (request):
-    #those that are marked have to be marked as completed
-    list = ToDoList.objects.get(title=chosen)
-    tasks = list.singletask_set.all()
-    for e in tasks:
-        t = list.singletask_set.get(task=e.task)
-        if e.task in request.POST and request.POST[e.task] == 'on': #we permenently select
-            t.completed = True
-        else:
-            t.completed= False
-        t.save()
+    try:
+        #those that are marked have to be marked as completed
+        list = ToDoList.objects.get(title=chosen)
+        tasks = list.singletask_set.all()
+        for e in tasks:
+            t = list.singletask_set.get(task=e.task)
+            if e.task in request.POST and request.POST[e.task] == 'on': #we permenently select
+                t.completed = True
+            else:
+                t.completed= False
+            t.save()
 
-    return redirect('specificList')
+        return redirect('specificList')
+
+    except:
+        return render(request, 'toDo/logIn.html', None)
 
 
 def addTask(request):
-    l = ToDoList.objects.get(title=chosen)
-    SingleTask.objects.create(task=request.POST['newTask'], completed=False, list = l)
-    return redirect('specificList')
+    try:
+        l = ToDoList.objects.get(title=chosen)
+        SingleTask.objects.create(task=request.POST['newTask'], completed=False, list = l)
+        return redirect('specificList')
 
+    except:
+        return render(request, 'toDo/logIn.html', None)
 
 def addList(request):
-    ToDoList.objects.create(title=request.POST['newList'], owner = usuari)
-    return redirect('personalSite')
+    try:
+        ToDoList.objects.create(title=request.POST['newList'], owner = usuari)
+        return redirect('personalSite')
+    except:
+        return render(request, 'toDo/logIn.html', None)

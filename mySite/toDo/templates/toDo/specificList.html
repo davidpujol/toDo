@@ -2,9 +2,8 @@
 {% extends 'toDo/base.html' %}
 {% load staticfiles %}
 {% block main_content %}
-
-
 </head>
+
 <body>
      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     {% include 'toDo/header.html' %}
@@ -31,6 +30,7 @@
 
         </form>
         <br><br>
+
 
         <form action="{%url 'addTask' %}" method="post">
             {% csrf_token %}
