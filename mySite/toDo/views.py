@@ -115,7 +115,9 @@ def processChanges (request):
 def addTask(request):
     try:
         l = ToDoList.objects.get(title=chosen)
-        SingleTask.objects.create(task=request.POST['newTask'], completed=False, list = l)
+        if 'newTask' in request.POST and request.POST['newTask'] != '':
+            SingleTask.objects.create(task=request.POST['newTask'], completed=False, list = l)
+
         return redirect('specificList')
 
     except:
@@ -123,7 +125,14 @@ def addTask(request):
 
 def addList(request):
     try:
-        ToDoList.objects.create(title=request.POST['newList'], owner = usuari)
+        if 'newList' in request.POST and request.POST['newList'] != '':
+            ToDoList.objects.create(title=request.POST['newList'], owner = usuari)
         return redirect('personalSite')
     except:
         return render(request, 'toDo/logIn.html', None)
+
+
+def logout(request):
+    global usuari
+    usuari = None
+    return redirect('main')

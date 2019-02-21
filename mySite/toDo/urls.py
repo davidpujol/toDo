@@ -29,6 +29,6 @@ urlpatterns = [
 
     path('/personalSite/SpecificList/AddList', views.addList, name='addList'),
 
-
+    path('/logout', views.logout, name='logout'),
 
 ]
