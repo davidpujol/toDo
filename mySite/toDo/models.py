@@ -9,8 +9,7 @@ class User (models.Model):
     name = models.CharField(max_length=100, default=None)
     age = models.IntegerField(default=18)
     email = models.CharField(max_length=100, default=None)
-    confirmationKey = models.IntegerField(default=0)
-    confirmed = models.BooleanField(default=True)
+    confirmed = models.BooleanField(default=False)
 
 
 

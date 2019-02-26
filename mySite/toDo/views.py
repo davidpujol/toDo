@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import User, ToDoList, SingleTask
 import hashlib
+from random import randint
 
 # Import smtplib for the actual sending function
 import smtplib
@@ -36,13 +37,13 @@ def registrationInfo(request):
 
 
     else:
-        print("We send a mail to confirm")
-        sendEmail(request.POST['email'], 123)   #we send mail for confirmation
+        sendEmail(request.POST['email'])   #we send mail for confirmation
         User.objects.create(user=request.POST['username'], password=hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest(), email=request.POST['email'], name=request.POST["name"])
         return redirect("login")
 
 
-def sendEmail(receiver_email, key):
+
+def sendEmail(receiver_email):
     import smtplib, ssl
     from email.mime.text import MIMEText
     from email.mime.multipart import MIMEMultipart
@@ -69,7 +70,7 @@ def sendEmail(receiver_email, key):
 
             Before so, and for security porpuses, we need you to confirm your account.<br>
         </p>
-        <p>Please click on the following link <a href="https://dpp014.pythonanywhere.com/toDo">Click_here</a></p>
+        <p>Please click on the following link <a href="https://dpp014.pythonanywhere.com/toDo/confirmationProcess">Click_here</a></p>
       </body>
     </html>
     """
@@ -88,12 +89,6 @@ def sendEmail(receiver_email, key):
         server.sendmail(
             sender_email, receiver_email, message.as_string()
         )
-
-
-
-
-
-
 
 
 def identifing (request):
@@ -203,5 +198,18 @@ def logout(request):
 def contact(request):
     return render(request, 'toDo/contact.html', None)
 
+
 def confirmation(request):
-    return render(request, 'toDo/confirmation.html', None)
+    p = hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest()
+    if User.objects.get(email=request.POST['email'], password=p):
+        u = User.objects.get(email=request.POST['email'], password=p)
+        u.confirmed = True
+        u.save()
+        return render(request, 'toDo/confirmation.html', None)
+
+    else:
+        return redirect(confirmationProcess)
+
+
+def confirmationProcess(request):
+    return render(request, 'toDo/confirmationProcess.html', None)

@@ -33,6 +33,8 @@ urlpatterns = [
 
     path('/confirmation', views.confirmation, name="confirmation"),
 
+    path('/confirmationProcess', views.confirmationProcess, name="confirmationProcess"),
+
     path('/contact', views.contact, name='contact'),
 
 ]
