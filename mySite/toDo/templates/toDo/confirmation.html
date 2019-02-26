@@ -1,0 +1,21 @@
+{% extends 'toDo/base.html' %}
+
+{% block main_content %}
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% include 'toDo/header.html' %}
+
+  <div class="inner-cover"><br>
+    <h1> Your account has been activated</h1>
+    <p> Dear user we are glad to announce that your account is fully operational, so everything is
+    set for you to start using it.</p><br><br>
+
+    <button class="btn btn-lg btn-primary btn-block"><a href="/toDo/login">Log in</a></button>
+
+
+    <br><br>
+    {% include 'toDo/footer.html' %}
+
+  </div>
+</body>
+{% endblock %}
