@@ -29,6 +29,10 @@ def registrationInfo(request):
     if request.POST['password'] != request.POST["password2"]:
         return render(request, 'toDo/register.html', {'problem': 2})
 
+    if User.objects.filter(email=request.POST['email'],confirmed=False).count() >=1:
+        User.objects.get(email=request.POST['email'], confirmed=False).delete()
+
+
     if User.objects.filter(user = request.POST['username']).count() >= 1:
         return render(request, 'toDo/register.html', {'problem': 1})
 
@@ -98,7 +102,7 @@ def identifing (request):
 
         email = request.POST['email']
         password = hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest()
-        usuari = User.objects.get(email=email, password=password)
+        usuari = User.objects.get(email=email, password=password, confirmed=True)
 
         if 'rememberMe' in request.POST and request.POST['rememberMe'] == 'on':
             remember = True
@@ -109,7 +113,6 @@ def identifing (request):
         return redirect(personalSite)
 
     except:
-        print("You need to register first")
         return render(request, 'toDo/logIn.html', None)
 
 
