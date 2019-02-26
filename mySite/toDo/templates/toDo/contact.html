@@ -1,0 +1,32 @@
+
+{% extends 'toDo/base.html' %}
+{% load staticfiles %}
+
+{% block main_content %}
+
+<body xmlns="http://www.w3.org/1999/html">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% include 'toDo/header.html' %}
+
+    <main role="main" class="inner cover" style="text-align: center;"><br>
+        <br>
+            <img style="width:300px;height:140px;" src="{% static 'logo.svg' %}">
+        <br><br>
+        <h3 class="lead"><strong>This company was founded by David Pujol in order to provide a useful tool for
+        all users to organize all their daily tasks in a agile and flexible platform.</strong> </h3><br><br><br>
+
+
+        <h2 class="cover-heading"><u> CONTACT INFORMATION</u></h2><br>
+        <h3 class="lead"><span style="font-weight:bold;">Telephon number: </span>XXXXXXXXX</h3>
+        <h3 class="lead"><span style="font-weight:bold;">Office location: </span> <a href="https://www.google.com/maps/place/Campus+Nord/@41.3879817,2.1103164,17z/data=!3m1!4b1!4m5!3m4!1s0x12a49850dadd0cbb:0xe58a6f5322af94ce!8m2!3d41.3879777!4d2.1125051">Campus Nord Universitat Politècnica de Catalunya, Barcelona</a></h3>
+        <h3 class="lead"><span style="font-weight:bold;">Working schedule: </span> Moday-Friday from 8am - 3pm</h3>
+
+        <br><br><br>
+        <br><br>
+        {% include 'toDo/footer.html' %}
+
+     </main>
+    </div>
+</body>
+
+{% endblock %}

@@ -3,6 +3,13 @@ from django.http import HttpResponse
 from .models import User, ToDoList, SingleTask
 import hashlib
 
+# Import smtplib for the actual sending function
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+
+
 # Create your views here.
 
 def main(request):
@@ -10,7 +17,6 @@ def main(request):
 
 
 def login(request):
-    # toDo CHECK IF THERE IS A LOGGIN COOKIE SO IT IS NOT NEEDED TO DO THE CHECK IN
     return render(request, 'toDo/logIn.html', None)
 
 
@@ -28,10 +34,66 @@ def registrationInfo(request):
     if User.objects.filter(email=request.POST['email']).count() >= 1:
         return render(request, 'toDo/register.html', {'problem': 2})
 
+
     else:
-        print("We add the user")
+        print("We send a mail to confirm")
+        sendEmail(request.POST['email'], 123)   #we send mail for confirmation
         User.objects.create(user=request.POST['username'], password=hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest(), email=request.POST['email'], name=request.POST["name"])
         return redirect("login")
+
+
+def sendEmail(receiver_email, key):
+    import smtplib, ssl
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+
+    sender_email = "confirmation.toDo@gmail.com"
+    password = 'iavm2umr'
+
+    message = MIMEMultipart("alternative")
+    message["Subject"] = "multipart test"
+    message["From"] = sender_email
+    message["To"] = receiver_email
+
+    # Create the plain-text and HTML version of your message
+
+    html = """\
+    <html>
+      <body>
+        <p>
+            Hello dear new user,<br>
+            We would like to welcome you to our toDo platform that will bring order into your life by enabling you
+            to keep track of your pending tasks as well as the completed ones.<br><br>
+            We wanted to remind you that in case of having any doubt in any functionality, please do not hesitate
+            to contact us so we can help you as soon as possible.<br><br>
+
+            Before so, and for security porpuses, we need you to confirm your account.<br>
+        </p>
+        <p>Please click on the following link <a href="https://dpp014.pythonanywhere.com/toDo">Click_here</a></p>
+      </body>
+    </html>
+    """
+
+    # Turn these into plain/html MIMEText objects
+    part2 = MIMEText(html, "html")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part2)
+
+    # Create secure connection with server and send email
+    context = ssl._create_unverified_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(
+            sender_email, receiver_email, message.as_string()
+        )
+
+
+
+
+
+
 
 
 def identifing (request):
@@ -136,3 +198,10 @@ def logout(request):
     global usuari
     usuari = None
     return redirect('main')
+
+
+def contact(request):
+    return render(request, 'toDo/contact.html', None)
+
+def confirmation(request):
+    return render(request, 'toDo/confirmation.html', None)

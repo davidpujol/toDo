@@ -31,4 +31,8 @@ urlpatterns = [
 
     path('/logout', views.logout, name='logout'),
 
+    path('/confirmation', views.confirmation, name="confirmation"),
+
+    path('/contact', views.contact, name='contact'),
+
 ]
