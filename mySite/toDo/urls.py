@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('/identifing', views.identifing, name='identifing'),
 
+
     path('/personalSite', views.personalSite, name='personalSite'),
 
     path('/personalSite/SpecificList', views.specificList, name='specificList'),
