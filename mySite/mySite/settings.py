@@ -25,7 +25,7 @@ SECRET_KEY = '-3$p*nn#@uz3tzt&vhm=jk66i@(ro2+ks9yenltri7rf1&x_&_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dpp014.pythonanywhere.com']
 
 
 # Application definition
@@ -119,3 +119,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = '/home/dpp014/toDo/mySite/toDo/static'
