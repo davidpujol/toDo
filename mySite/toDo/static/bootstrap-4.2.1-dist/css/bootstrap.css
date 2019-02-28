@@ -2982,7 +2982,8 @@ fieldset:disabled a.btn {
 
 .btn-block {
   display: block;
-  width: 100%;
+  width: 100px;
+  height: 40px;
 }
 
 .btn-block + .btn-block {
