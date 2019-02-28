@@ -43,7 +43,7 @@ def registrationInfo(request):
     else:
         sendEmail(request.POST['email'])   #we send mail for confirmation
         User.objects.create(user=request.POST['username'], password=hashlib.sha256(request.POST['password'].encode('utf-8')).hexdigest(), email=request.POST['email'], name=request.POST["name"])
-        return redirect("login")
+        return render(request, 'toDo/confirmationSent.html', None)
 
 
 

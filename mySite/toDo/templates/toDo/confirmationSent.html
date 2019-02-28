@@ -1,0 +1,17 @@
+{% extends 'toDo/base.html' %}
+
+{% block main_content %}
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% include 'toDo/header.html' %}
+
+    <div class="inner-cover"><br>
+    <h1> An email has been sent to confirm your account</h1>
+    <h4> If you do have not received the email, please check your spam inbox and if necessary, please register again so we can restart the process.</h4>
+    <br><br>
+    {% include 'toDo/footer.html' %}
+
+  </div>
+    </div>
+</body>
+{% endblock %}
