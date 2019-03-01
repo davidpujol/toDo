@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from .models import User, ToDoList, SingleTask
 import hashlib
 from random import randint
@@ -74,7 +73,7 @@ def sendEmail(receiver_email):
 
             Before so, and for security porpuses, we need you to confirm your account.<br>
         </p>
-        <p>Please click on the following link <a href="https://dpp014.pythonanywhere.com/toDo/confirmationProcess">Click_here</a></p>
+        <p>Please click on the following link <a href="localhost:8000/toDo/confirmationProcess">Click_here</a></p>
       </body>
     </html>
     """

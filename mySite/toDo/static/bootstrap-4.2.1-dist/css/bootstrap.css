@@ -2422,6 +2422,8 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
+  width:100px;
+  height:40px;
 }
 
 .btn-primary:hover {
@@ -2982,8 +2984,6 @@ fieldset:disabled a.btn {
 
 .btn-block {
   display: block;
-  width: 100px;
-  height: 40px;
 }
 
 .btn-block + .btn-block {

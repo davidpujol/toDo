@@ -26,6 +26,7 @@ SECRET_KEY = '-3$p*nn#@uz3tzt&vhm=jk66i@(ro2+ks9yenltri7rf1&x_&_'
 DEBUG = True
 
 ALLOWED_HOSTS = ['dpp014.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 8000]
 
 
 # Application definition

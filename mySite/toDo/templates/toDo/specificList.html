@@ -23,10 +23,10 @@
                     <input class="checkbox" type="checkbox" name="{{e.task}}">
                 {% endif %}
 
-                    <label class="item"> {{e.task}}</label> <img class="trash" src="{% static 'trash.png' %}"> <br>
+                    <label class="item"> {{e.task}}</label><img class="trash" src="{% static 'trash.png' %}"> <br>
             {% endfor %}
             <br><br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"> Apply changes</button>   <br>
+            <button class="btn btn-lg btn-primary btn-block, button_costumized" type="submit"> Apply changes</button>   <br>
 
         </form>
         <br><br>
@@ -34,8 +34,10 @@
 
         <form action="{%url 'addTask' %}" method="post">
             {% csrf_token %}
+            <h4> Add a new task: </h4><br>
             <input class="newInput" type="text" placeholder="New task" name="newTask">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+            <br><br>
+            <button class="btn btn-lg btn-primary btn-block, button_costumized" type="submit">Add</button>
         </form>
 
 
